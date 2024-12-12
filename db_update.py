@@ -46,7 +46,7 @@ df_pop = pd.DataFrame(pop_movie_list)
 # Films top rated
 top_movie_list = []
 for i in range(1,nb_page+1) : 
-    url = f"https://api.themoviedb.org/3/movie/top_rated?language=en-US&page={i}" 
+    url = f"https://api.themoviedb.org/3/movie/top_rated?language=fr-FR&page={i}" 
     response = requests.get(url, headers=headers)
     for el in response.json()['results'] :
         top_movie_list.append(el)
