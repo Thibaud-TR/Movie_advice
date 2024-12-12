@@ -51,7 +51,7 @@ if page == "Films du moment":
     with col2 :
         language = st.radio('Affiner par langue originale',['Tous'] + ['Français', 'Anglais'], )
         st.text(' ')
-        genre = st.selectbox('Affiner par genre', ['Tous'] + sorted(list(df['genre'].explode().unique())))
+        genre = st.selectbox('Affiner par genre', ['Tous'] + sorted(list(df['genre'].explode().unique())[:-1]))
 
     if language == 'Français' :
         df = df[df['original_language'] == 'fr']
