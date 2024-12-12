@@ -11,11 +11,11 @@ headers = {"accept": "application/json", "Authorization": id_tmdb}
 # Critères :
 vote_average_min = 5
 vote_count_min = 10
-nb_page = 5                 # Nb de pages pour les requetes (max 500)
+nb_page = 500           # Nb de pages pour les requetes (max 500)
 
 # Films en langue fr
 fr_movie_list = []
-for i in range(1,nb_page+1) :
+for i in range(1,nb_page+ 1) :
     url = f"https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=fr-FR&page={i}&sort_by=popularity.desc&vote_average.gte={vote_average_min}&vote_count.gte={vote_count_min}&with_origin_country=FR&with_original_language=fr"    
     response = requests.get(url, headers=headers)
     for el in response.json()['results'] :
