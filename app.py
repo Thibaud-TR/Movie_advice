@@ -2,7 +2,8 @@ import streamlit as st
 import pandas as pd
 
 df=pd.read_csv('https://raw.githubusercontent.com/Thibaud-TR/Movie_advice/refs/heads/master/bdd_tmdb.csv')
-df['genre'] = df['genre'].apply(lambda x :eval(x))
+df['genre'] = df['genre'].apply(lambda x : eval(x) if len(x)>3 else 0)
+df = df.drop(df[df['genre'] == 0].index , axis=0)
 
 # Style changes
 st.markdown("""<style>
