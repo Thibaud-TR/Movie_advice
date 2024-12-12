@@ -1,1 +1,1 @@
-# We create a web app for movie recommendation
+# This is a web app for movie recommendation
