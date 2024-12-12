@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 
-df=pd.read_csv(r'C:\Users\Thibaud\Documents\WCS\Projet_2\BDD_projet\bdd_tmdb.csv')
+df=pd.read_csv('https://raw.githubusercontent.com/Thibaud-TR/Movie_advice/refs/heads/master/bdd_tmdb.csv')
 df['genre'] = df['genre'].apply(lambda x :eval(x))
 
 # Style changes
