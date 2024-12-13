@@ -8,10 +8,9 @@ df = df.drop(df[df['genre'] == 0].index , axis=0)
 # Style changes
 st.markdown("""<style>
             *{color:#B0B0B0;}
-            .st-emotion-cache-ysk9xe p{font-size:25px ; color:#5F9EA0}
             h1{text-align:center;}
             .e1f1d6gn0 {margin: auto auto ;}
-            .st-emotion-cache-1y5f4eg p{font-size:25px;}
+            .stMarkdown p{font-size:25px;}
             </style>""", unsafe_allow_html=True)
 
 
@@ -39,18 +38,21 @@ if page == "Accueil":
 # Page : Films du moment - START
 if page == "Films du moment":
     st.title('🎥 Les films du moment ! 🎬')
-    st.markdown("""<style>
-                *{color:#B0B0B0;}
-                .st-emotion-cache-ysk9xe p{font-size:25px ; color:#5F9EA0}
-                h1{text-align:center;}
-                .e1f1d6gn0 {margin: auto auto ;}
-                .st-emotion-cache-1y5f4eg p{font-size:25px;}
-                </style>""", unsafe_allow_html=True)
-
     st.write('---')
+
+    st.markdown("""<style>
+        *{color:#B0B0B0;}
+        .stSelectbox p{font-size:25px ; color:#5F9EA0}
+        h1{text-align:center;}
+        .e1f1d6gn0 {margin: auto auto ;}
+        .stMarkdown p{font-size:25px;}
+        </style>""", unsafe_allow_html=True)
+    
     col1,col2,col3 = st.columns([1,9,1])
+
     with col2 :
-        language = st.radio('Affiner par langue originale',['Tous'] + ['Français', 'Anglais'], )
+
+        language = st.selectbox('Affiner par langue originale',['Tous'] + ['Français', 'Anglais'], )
         st.text(' ')
         genre = st.selectbox('Affiner par genre', ['Tous'] + sorted(list(df['genre'].explode().unique())[:-1]))
 
