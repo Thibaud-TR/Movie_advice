@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 
-df=pd.read_csv('https://raw.githubusercontent.com/Thibaud-TR/Movie_advice/refs/heads/master/bdd_tmdb.csv')
+df=pd.read_csv('https://raw.githubusercontent.com/Thibaud-TR/Movie_advice/refs/heads/master/db_reco.csv')
 df['genre'] = df['genre'].apply(lambda x : eval(x) if len(x)>3 else 0)
 df = df.drop(df[df['genre'] == 0].index , axis=0)
 
@@ -16,7 +16,7 @@ st.markdown("""<style>
 
 # Sidebar creation
 st.sidebar.title("Navigation")
-page = st.sidebar.radio("", ["Accueil", "Films du moment", "Système de recommandation", "Liens utiles", "Remerciements", "Contact"])
+page = st.sidebar.radio("", ["Accueil", "Films du moment", "Recommandations", "Liens utiles"])
 
 st.markdown("""<style>
             label {height : 35px;}
@@ -44,7 +44,7 @@ if page == "Films du moment":
         *{color:#B0B0B0;}
         .stSelectbox p{font-size:25px ; color:#5F9EA0}
         h1{text-align:center;}
-        .e1f1d6gn0 {margin: auto auto ;}
+        .e2wxzia0{margin: auto auto ;}
         .stMarkdown p{font-size:25px;}
         </style>""", unsafe_allow_html=True)
     
@@ -68,17 +68,48 @@ if page == "Films du moment":
     for i in range(4) :
         col1, col2 = st.columns([2,3])
         with col1:
-            st.image('https://image.tmdb.org/t/p/original'+list(df['poster_path'])[i],width=200)
+            st.image('https://image.tmdb.org/t/p/original'+list(df['poster_path'])[i], width=200)
         with col2:
             st.markdown(list(df['title'])[i])
             st.text(list(df['overview'])[i])
         st.write('---')
 # Page : Films du moment - END
 
+# Page : Recommandations - START
+if page == "Recommandations":
+    st.title("🚀 Recommandation de films 🎬")
+    st.write('---')
+
+    st.markdown("""<style>
+        *{color:#B0B0B0;}
+        .stSelectbox p{font-size:25px ; color:#5F9EA0}
+        </style>""", unsafe_allow_html=True)
+
+    col1,col2,col3 = st.columns([1,9,1])
+    with col2 :
+        selected_movie = st.selectbox('Choisir un film pour la recommandation', df['title'], index=None, placeholder = 'Choisir un film dans la liste' )
+    st.write('---')
+
+    if selected_movie != None :
+        selected_id = int(df[df['title'] == selected_movie]['id'].iloc[0])
+        for i in range(3) :
+            id = int(df[df['id'] == selected_id][f'reco_{i+1}'])
+            serie = df[df['id'] == id]
+            col1, col2 = st.columns([2,4])
+            with col1:
+                st.image('https://image.tmdb.org/t/p/original'+serie['poster_path'].iloc[0], width=200)
+            with col2:
+                st.markdown(serie['title'].iloc[0])
+                st.text("🎭  " + " - ".join(serie['genre'].iloc[0]) + " | 📆 " + str(serie['release_date'].iloc[0]))
+                st.text(serie['overview'].iloc[0])
+                st.text("✅ " + str(round(serie['vote_average'].iloc[0],1)) + " / 10")
+            st.write('---')
+
+# Page : Recommandations - END
 
 # Page : Liens Utiles - START
 if page == "Liens utiles":
-    st.title("🚩 Liens utiles 😎")
+    st.title("😎 Liens utiles ✌")
     st.write("---")
     st.write("Ces sites internets peuvent vous aider à trouver des informations sur vos films préférés :")
 

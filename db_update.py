@@ -66,13 +66,12 @@ df_genre = pd.DataFrame(response.json()['genres'])
 # Création d'une colonne 'genre' avec les noms
 df_glob['genre'] = df_glob['genre_ids'].apply(lambda val : [df_genre[df_genre['id'] == el]['name'].values[0] for el in val])
 
-# Transformation 'release_date' en datetime object
-df_glob['release_date'] = pd.to_datetime(df_glob['release_date'])
-
 # Re-filtration vote_count a vote_average
 df_glob = df_glob[ (df_glob['vote_count'] > vote_count_min) & (df_glob['vote_average'] > vote_average_min) ]
 
 # Export CSV
 df_glob = df_glob.drop(columns=['adult','genre_ids','video','backdrop_path'])
+df_glob = df_glob[df_glob.notna()]
+df_glob = df_glob[df_glob['overview'] != '']
 df_glob = df_glob.sort_values('popularity',ascending=False)
-df_glob.to_csv("bdd_tmdb.csv", index=False)
+df_glob.to_csv("db_tmdb.csv", index=False)
