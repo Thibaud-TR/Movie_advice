@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 
-df=pd.read_csv('https://raw.githubusercontent.com/Thibaud-TR/Movie_advice/refs/heads/master/db_reco.csv?token=GHSAT0AAAAAAC27ET325BTPPGJO4LN7GRBGZ3C5BWA')
+df=pd.read_csv('https://raw.githubusercontent.com/Thibaud-TR/Movie_advice/refs/heads/master/db_reco.csv')
 df['genre'] = df['genre'].apply(lambda x : eval(x) if len(x)>3 else 0)
 df = df.drop(df[df['genre'] == 0].index , axis=0)
 
