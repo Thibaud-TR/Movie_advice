@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 
-df=pd.read_csv('https://raw.githubusercontent.com/Thibaud-TR/Movie_advice/refs/heads/master/db_reco.csv?token=GHSAT0AAAAAAC27ET325BTPPGJO4LN7GRBGZ3C5BWA')
+df=pd.read_csv('https://raw.githubusercontent.com/Thibaud-TR/Movie_advice/refs/heads/master/db_reco.csv')
 df['genre'] = df['genre'].apply(lambda x : eval(x) if len(x)>3 else 0)
 df = df.drop(df[df['genre'] == 0].index , axis=0)
 
@@ -25,7 +25,7 @@ st.markdown("""<style>
 
 # Page : Accueil - START
 if page == "Accueil":
-    st.title("👋 Bienvenue sur CinéClap !")
+    st.title("👋 Bienvenue sur wild.choice(movie) !")
     st.write("")
     st.image(
         "https://media1.tenor.com/m/7ARSlPMxupoAAAAd/laughing-garfield.gif",
@@ -71,11 +71,19 @@ if page == "Films du moment":
             st.image('https://image.tmdb.org/t/p/original'+list(df['poster_path'])[i], width=200)
         with col2:
             st.markdown(list(df['title'])[i])
+            st.text("🎭  " + " - ".join(list(df['genre'].iloc[i])) + " | 📆 " + str(df['release_date'].iloc[i]))
             st.text(list(df['overview'])[i])
+            st.text("✅ " + str(round(df['vote_average'].iloc[i],1)) + " / 10")
         st.write('---')
 # Page : Films du moment - END
 
+def click_button(index_film):
+    st.session_state['selected_index'] = int(index_film)
+
 # Page : Recommandations - START
+if "selected_index" not in st.session_state:
+    st.session_state["selected_index"] = None
+
 if page == "Recommandations":
     st.title("🚀 Recommandation de films 🎬")
     st.write('---')
@@ -85,9 +93,12 @@ if page == "Recommandations":
         .stSelectbox p{font-size:25px ; color:#5F9EA0}
         </style>""", unsafe_allow_html=True)
 
-    col1,col2,col3 = st.columns([1,9,1])
+    col1,col2,col3 = st.columns([1,12,2])
     with col2 :
-        selected_movie = st.selectbox('Choisir un film pour la recommandation', df['title'], index=None, placeholder = 'Choisir un film dans la liste' )
+        selected_movie = st.selectbox('Choisir un film pour la recommandation', df['title'], index= st.session_state['selected_index'], placeholder='Choisir un film')
+    with col3 :    
+        if selected_movie != None :
+            st.image('https://image.tmdb.org/t/p/original'+df[df['title'] == selected_movie]['poster_path'].iloc[0], width=120)
     st.write('---')
 
     if selected_movie != None :
@@ -103,6 +114,7 @@ if page == "Recommandations":
                 st.text("🎭  " + " - ".join(serie['genre'].iloc[0]) + " | 📆 " + str(serie['release_date'].iloc[0]))
                 st.text(serie['overview'].iloc[0])
                 st.text("✅ " + str(round(serie['vote_average'].iloc[0],1)) + " / 10")
+                st.button("Recommandations de ce film",key=f"button_{i}", on_click=click_button, args=[serie.index[0]])              
             st.write('---')
 
 # Page : Recommandations - END
