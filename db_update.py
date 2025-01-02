@@ -1,6 +1,7 @@
 import requests
 import pandas as pd
 from time import sleep
+from tqdm import tqdm
 from id import id_tmdb
 
 # Récupération des films via API TMDB
@@ -15,7 +16,7 @@ nb_page = 500           # Nb de pages pour les requetes (max 500)
 
 # Films en langue fr
 fr_movie_list = []
-for i in range(1,nb_page+ 1) :
+for i in tqdm(range(1,nb_page+ 1)) :
     url = f"https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=fr-FR&page={i}&sort_by=popularity.desc&vote_average.gte={vote_average_min}&vote_count.gte={vote_count_min}&with_origin_country=FR&with_original_language=fr"    
     response = requests.get(url, headers=headers)
     for el in response.json()['results'] :
@@ -25,7 +26,7 @@ df_fr = pd.DataFrame(fr_movie_list)
 
 # Films en langue en
 en_movie_list = []
-for i in range(1,nb_page+1) :    
+for i in tqdm(range(1,nb_page+1)) :    
     url = f"https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=fr-FR&page={i}&sort_by=popularity.desc&vote_average.gte={vote_average_min}&vote_count.gte={vote_count_min}&with_origin_country=EN&with_original_language=en"
     response = requests.get(url, headers=headers)
     for el in response.json()['results'] :
@@ -35,7 +36,7 @@ df_en = pd.DataFrame(en_movie_list)
 
 # Films les plus populaires
 pop_movie_list = []
-for i in range(1,nb_page+1) : 
+for i in tqdm(range(1,nb_page+1)) : 
     url = f"https://api.themoviedb.org/3/movie/popular?language=fr-FR&page={i}"
     response = requests.get(url, headers=headers)
     for el in response.json()['results'] :
@@ -45,7 +46,7 @@ df_pop = pd.DataFrame(pop_movie_list)
 
 # Films top rated
 top_movie_list = []
-for i in range(1,nb_page+1) : 
+for i in tqdm(range(1,nb_page+1)) : 
     url = f"https://api.themoviedb.org/3/movie/top_rated?language=fr-FR&page={i}" 
     response = requests.get(url, headers=headers)
     for el in response.json()['results'] :
