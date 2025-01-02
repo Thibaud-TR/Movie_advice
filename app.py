@@ -25,13 +25,20 @@ st.markdown("""<style>
 
 # Page : Accueil - START
 if page == "Accueil":
-    st.title("👋 Bienvenue sur wild.choice(movie) !")
+    st.title("👋 Bienvenue sur Toucan Movie! 🦜")
     st.write("")
-    st.image(
-        "https://media1.tenor.com/m/7ARSlPMxupoAAAAd/laughing-garfield.gif",
-        caption="En acceptant les CGV de site, vous agréez expressément à souscrire à notre service Cinélist à 490€ HT / mois",
-        use_container_width=True
-    )
+    col1,col2,col3 = st.columns([1,5,1])
+    with col2 :
+        st.image("https://i.ibb.co/Dttjw3S/45cef378-7cf0-453d-a658-9df8e84a19a3.png", width=500    )
+    st.write("")
+    st.write("*Chez Toucan Movie, on vous promet des films a vous clouer le bec et des histoires qui ne manqueront pas de faire vibrer vos plumes !*")
+
+    st.markdown("""<style>
+            *{color:#B0B0B0;}
+            h1{text-align:center;font-size:40px;}
+            .stMarkdown > div > p {font-size:20px;text-align:center;}
+            </style>""", unsafe_allow_html=True)
+
 # Page : Accueil - END
 
 
