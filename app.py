@@ -1,9 +1,14 @@
 import streamlit as st
 import pandas as pd
 
-df=pd.read_csv('https://raw.githubusercontent.com/Thibaud-TR/Movie_advice/refs/heads/master/db_reco.csv')
-df['genre'] = df['genre'].apply(lambda x : eval(x) if len(x)>3 else 0)
-df = df.drop(df[df['genre'] == 0].index , axis=0)
+@st.cache_data
+def get_df():
+    df=pd.read_csv('https://raw.githubusercontent.com/Thibaud-TR/Movie_advice/refs/heads/master/db_reco.csv')
+    df['genre'] = df['genre'].apply(lambda x : eval(x) if len(x)>3 else 0)
+    df = df.drop(df[df['genre'] == 0].index , axis=0)
+    return df
+
+df = get_df()
 
 # Style changes
 st.markdown("""<style>
@@ -17,6 +22,9 @@ st.markdown("""<style>
 # Sidebar creation
 st.sidebar.title("Navigation")
 page = st.sidebar.radio("", ["Accueil", "Films du moment", "Recommandations", "Liens utiles"])
+
+if page != 'Recommandations':
+    st.session_state['selected_index'] = None
 
 st.markdown("""<style>
             label {height : 35px;}
