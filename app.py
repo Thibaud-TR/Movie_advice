@@ -44,7 +44,7 @@ if page == "Accueil":
 
     st.markdown("""<style>
             *{color:#B0B0B0;}
-            h1{text-align:center;font-size:38px;}
+            h1{text-align:center;font-size:35px;}
             .stMarkdown > div > p {font-size:20px;text-align:center;}
             </style>""", unsafe_allow_html=True)
 
