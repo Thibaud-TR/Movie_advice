@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 
+
 @st.cache_data
 def get_df():
     df=pd.read_csv('https://raw.githubusercontent.com/Thibaud-TR/Movie_advice/refs/heads/master/db_reco.csv')
